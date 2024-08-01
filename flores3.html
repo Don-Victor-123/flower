@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiii <3 </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #noButton {
+            transition: all 0.3s ease;
+        }
+
+        #message {
+            display: none;
+            font-size: 24px;
+            color: #ff4081;
+            margin-top: 20px;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .question {
+                font-size: 20px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
+
+        #flower-container {
+            display: none;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            position: relative;
+            animation: rotateFlower 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes rotateFlower {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .petal {
+            position: absolute;
+            width: 20px;
+            height: 35px;
+            background: linear-gradient(to top, #ff0000, #ff6666);
+            border-radius: 50% 50% 0 0;
+            transform-origin: bottom center;
+            left: calc(50% - 10px);
+            bottom: 90px;
+            animation: bloomAndWave 3s ease-in-out infinite alternate;
+        }
+
+        .stem {
+            position: absolute;
+            width: 4px;
+            height: 100px;
+            background-color: #4CAF50;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .leaf {
+            position: absolute;
+            width: 15px;
+            height: 25px;
+            background-color: #4CAF50;
+            border-radius: 0 50% 50% 50%;
+            transform-origin: 0 50%;
+        }
+
+        .leaf:nth-child(odd) {
+            left: 8px;
+            transform: rotate(45deg);
+        }
+
+        .leaf:nth-child(even) {
+            left: -2px;
+            transform: rotate(-45deg) scaleX(-1);
+        }
+
+        @keyframes bloomAndWave {
+
+            0%,
+            100% {
+                transform: rotate(var(--rotate)) scale(1);
+            }
+
+            50% {
+                transform: rotate(calc(var(--rotate) - 5deg)) scale(0.9);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="question" id="questionText">¿Me dejarías comer?</div>
+        <div class="buttons">
+            <button id="yesButton">Sí</button>
+            <button id="noButton">No</button>
+        </div>
+        <div id="flower-container">
+            <div class="stem"></div>
+        </div>
+        <div id="message">Se te quiere ❤</div>
+    </div>
+
+    <script>
+        const noButton = document.getElementById('noButton');
+        const yesButton = document.getElementById('yesButton');
+        const flowerContainer = document.getElementById('flower-container');
+        const message = document.getElementById('message');
+
+        noButton.addEventListener('mouseover', () => {
+            const maxX = window.innerWidth - noButton.offsetWidth;
+            const maxY = window.innerHeight - noButton.offsetHeight;
+            noButton.style.position = 'absolute';
+            noButton.style.left = Math.random() * maxX + 'px';
+            noButton.style.top = Math.random() * maxY + 'px';
+        });
+
+        yesButton.addEventListener('click', () => {
+            yesButton.style.display = 'none';
+            noButton.style.display = 'none';
+            createFlower();
+            flowerContainer.style.display = 'block';
+            message.style.display = 'block';
+        });
+
+        function createFlower() {
+            const petalCount = 6;
+            const leafCount = 4;
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const rotate = i * (360 / petalCount);
+                petal.style.setProperty('--rotate', `${rotate}deg`);
+                petal.style.animationDelay = `${i * 0.1}s`;
+                flowerContainer.appendChild(petal);
+            }
+
+            const stem = flowerContainer.querySelector('.stem');
+            for (let i = 0; i < leafCount; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.bottom = `${5 + i * 15}px`; // Ajustado para una mejor distribución
+                stem.appendChild(leaf);
+            }
+        }
+        const questionText = document.getElementById('questionText');
+
+        yesButton.addEventListener('click', () => {
+            yesButton.style.display = 'none';
+            noButton.style.display = 'none';
+            questionText.textContent = 'Bonito día mi niña hermosa :3';
+            createFlower();
+            flowerContainer.style.display = 'block';
+            message.style.display = 'block';
+        });
+    </script>
+</body>
+
+</html>
